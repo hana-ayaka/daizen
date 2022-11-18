@@ -85,7 +85,10 @@ REPOSITORY                     TAG            IMAGE ID       CREATED         SIZ
 jupyter/datascience-notebook   bada6c21e945   3e42253ea027   6 seconds ago   7.45GB
 ```
 圧縮する  
-```$ docker save IMAGE ID > image.tar```  
+```$ docker save IMAGE ID > image.tar``` 　
+
+ ### **7.圧縮ファイルを解凍して立ち上げ、ライブラリが入っているか確認する**  
+
 解凍する  
 ```$ docker load -i image.tar```  
 保存できているか確認  
@@ -98,3 +101,59 @@ REPOSITORY                     TAG       IMAGE ID       CREATED          SIZE
 
 ここで、docker run してもDockerfileに書かれたものが起動してしまう（ライブラリなどを入れる前の）
 どのように起動したら良いか調べる必要あり
+
+とりあえず、run.shを書き換える  
+  * run.sh  
+```
+#!/bin/sh
+
+docker \
+  run \
+  -it \
+  -p 8008:8888 \
+  --platform=linux/amd64 \
+  -v $(pwd):/home/jovyan/work \
+  --workdir=/home/jovyan/work \
+  3e42253ea027
+  ```  
+
+→うまく立ち上がった！しかしREPOSITORY,TAGが<none>だと、いくつもdocker立ち上げたときにわかりづらい・・・。commitの段階で、オプションがあるのではないか・・・？  
+
+
+ ### **7.サーバーにimageをコピーして起動できるか確認する**  
+ 今回試したサーバー：
+``` $ docker load -i image.tar```  
+```$ docker images```   
+```REPOSITORY                     TAG                    IMAGE ID       CREATED         SIZE
+<none>                         <none>                 3e42253ea027   5 days ago      7.45GB
+```  
+→立ち上がった！しかしどこで見るのか分からない。。。　　
+念の為のlog
+```
+  mori@DL-BoxII:/home/kato/work/data_share/docker-maesyori$ source run.sh
+Entered start.sh with args: jupyter lab
+Executing the command: jupyter lab
+[I 2022-11-18 06:46:58.466 ServerApp] jupyterlab | extension was successfully linked.
+[W 2022-11-18 06:46:58.470 NotebookApp] 'ip' has moved from NotebookApp to ServerApp. This config will be passed to ServerApp. Be sure to update your config before our next release.
+[W 2022-11-18 06:46:58.470 NotebookApp] 'port' has moved from NotebookApp to ServerApp. This config will be passed to ServerApp. Be sure to update your config before our next release.
+[W 2022-11-18 06:46:58.470 NotebookApp] 'port' has moved from NotebookApp to ServerApp. This config will be passed to ServerApp. Be sure to update your config before our next release.
+[I 2022-11-18 06:46:58.477 ServerApp] nbclassic | extension was successfully linked.
+[I 2022-11-18 06:46:58.656 ServerApp] notebook_shim | extension was successfully linked.
+[I 2022-11-18 06:46:58.672 ServerApp] notebook_shim | extension was successfully loaded.
+[I 2022-11-18 06:46:58.672 LabApp] JupyterLab extension loaded from /opt/conda/lib/python3.10/site-packages/jupyterlab
+[I 2022-11-18 06:46:58.672 LabApp] JupyterLab application directory is /opt/conda/share/jupyter/lab
+[I 2022-11-18 06:46:58.675 ServerApp] jupyterlab | extension was successfully loaded.
+[I 2022-11-18 06:46:58.678 ServerApp] nbclassic | extension was successfully loaded.
+[I 2022-11-18 06:46:58.679 ServerApp] Serving notebooks from local directory: /home/jovyan/work
+[I 2022-11-18 06:46:58.679 ServerApp] Jupyter Server 1.23.1 is running at:
+[I 2022-11-18 06:46:58.679 ServerApp] http://d2b44c13c114:8888/lab?token=6ed8f76030b1a4c8bbf3cdb5f23c61988b19e507c50e34fc
+[I 2022-11-18 06:46:58.679 ServerApp]  or http://127.0.0.1:8888/lab?token=6ed8f76030b1a4c8bbf3cdb5f23c61988b19e507c50e34fc
+[I 2022-11-18 06:46:58.679 ServerApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[C 2022-11-18 06:46:58.681 ServerApp]
+
+    To access the server, open this file in a browser:
+        file:///home/jovyan/.local/share/jupyter/runtime/jpserver-7-open.html
+    Or copy and paste one of these URLs:
+        http://d2b44c13c114:8888/lab?token=6ed8f76030b1a4c8bbf3cdb5f23c61988b19e507c50e34fc
+     or http://127.0.0.1:8888/lab?token=6ed8f76030b1a4c8bbf3cdb5f23c61988b19e507c50e34fc
+     ```

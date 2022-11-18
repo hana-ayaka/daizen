@@ -7,5 +7,5 @@ docker \
   --platform=linux/amd64 \
   -v $(pwd):/home/jovyan/work \
   --workdir=/home/jovyan/work \
-  jupyter/datascience-notebook:bada6c21e945
+  3e42253ea027
 
