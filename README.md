@@ -99,7 +99,7 @@ REPOSITORY                     TAG       IMAGE ID       CREATED          SIZE
 <none>                         <none>    3e42253ea027   31 minutes ago   7.45GB
 ```
 
-<span style="color: red; ">ポイント</span>ここで、docker run してもDockerfileに書かれたものが起動してしまう（ライブラリなどを入れる前の）
+ここで、docker run してもDockerfileに書かれたものが起動してしまう（ライブラリなどを入れる前の）
 どのように起動したら良いか調べる必要あり
 
 とりあえず、run.shを書き換える(立ち上げるイメージIDを記載)    
@@ -117,9 +117,9 @@ docker \
   3e42253ea027
   ```  
 
-→うまく立ち上がった！しかしREPOSITORY,TAGが<none>だと、いくつもdocker立ち上げたときにわかりづらい・・・。<span style="color: red; ">ポイント</span>commitの段階で、オプションがあるのではないか・・・？  
-[参考URL](https://zenn.dev/suiudou/articles/9493fa8c4c7369)  
-ここで指定できそう
+→うまく立ち上がった！しかしREPOSITORY,TAGが<none>だと、いくつもdocker立ち上げたときにわかりづらい・・・。commitの段階で、オプションがあるのではないか・・・？  
+[コミット時のタグ付](https://zenn.dev/suiudou/articles/9493fa8c4c7369)  
+[docker tagコマンドのタグ付](https://www.memotansu.jp/docker/657/)  
 
  ### **7.サーバーにimageをコピーして起動できるか確認する**  
  今回試したサーバー：  
@@ -161,4 +161,5 @@ Executing the command: jupyter lab
 
 [リモートサーバーのjupyterに接続するには](https://www.servernote.net/article.cgi?id=connect-remote-jupyter-notebook)  
 [SSH先のサーバ上のjupyter notebookをローカルPCで操作する](https://sishida21.github.io/2019/12/12/remote-jupyter-notebook/)  
-<span style="color: red; ">ポイント</span>configの設定をしてみるぽい
+
+普通に「ipアドレス:8008(ポート番号)」で設定可能だった  
