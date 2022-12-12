@@ -17,7 +17,8 @@ RUN echo "font.family : IPAexGothic" >>  /opt/conda/lib/python3.10/site-packages
 
 
 RUN pip install --upgrade pip &&\
-    pip install pandas-profiling
+    pip install pandas-profiling\
+    pip install japanize-matplotlib
 
 
 USER jovyan
