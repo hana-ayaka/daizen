@@ -163,3 +163,92 @@ Executing the command: jupyter lab
 [SSH先のサーバ上のjupyter notebookをローカルPCで操作する](https://sishida21.github.io/2019/12/12/remote-jupyter-notebook/)  
 
 普通に「ipアドレス:8008(ポート番号)」で設定可能だった  
+
+***
+
+ ### **☆pythonの日本語対応**  
+ anacondaのimageからひっぱってきたDockerでは"font.family : IPAexGothic"で対応できたが、今回はうまくいかなかった。
+ * Dockerfile  
+```
+FROM jupyter/datascience-notebook:bada6c21e945
+
+#日本語フォントを拾ってくる
+USER root
+RUN apt-get update && \
+    apt -y install curl &&\
+    apt -y install zip
+RUN curl -L  "https://moji.or.jp/wp-content/ipafont/IPAexfont/ipaexg00401.zip" > font.zip
+#展開
+RUN unzip font.zip
+#展開したファイルをcondaのfontを設定するディレクトリにコピー
+RUN cp ipaexg00401/ipaexg.ttf /opt/conda/lib/python3.10/site-packages/matplotlib/mpl-data/fonts/ttf/ipaexg.ttf
+#font.familyの書き換え
+RUN echo "font.family : IPAexGothic" >>  /opt/conda/lib/python3.10/site-packages/matplotlib/mpl-data/matplotlibrc
+#キャッシュを削除
+#RUN rm -r /root/.cache/matplotlib
+
+
+RUN pip install --upgrade pip &&\
+    pip install pandas-profiling
+
+
+USER jovyan
+
+WORKDIR home/jovyan/work
+
+EXPOSE 8888
+
+ENTRYPOINT ["jupyter-lab", "--ip=0.0.0.0", "--port=8888", "--no-browser" , "--allow-root", "--NotebookApp.token=''"]
+```
+
+そこで、japanese-matplotlibというパッケージをインストールしたところ、グラフ表示で日本語が対応できていた。  
+[参考資料](https://py-memo.com/python/matplotlib-japanese/)  
+
+ * Dockerfile(こちらを採用)
+
+  ```
+FROM jupyter/datascience-notebook:bada6c21e945
+
+
+RUN pip install --upgrade pip &&\
+    pip install pandas-profiling &&\ #pandas-report 
+    pip install japanize-matplotlib #日本語対応
+
+WORKDIR home/jovyan/work
+
+
+EXPOSE 8888
+
+ENTRYPOINT ["jupyter-lab", "--ip=0.0.0.0", "--port=8888", "--no-browser" , "--allow-root", "--NotebookApp.token=''"]
+
+#CMD ["--notebook-dir=/home/jovyan/work"]
+```
+***
+
+# **最終的なDocker使用方法**  
+(M1とM1以外では動作が異なる。推奨はM1以外)
+## M1チップ以外の場合  
+
+### **1.Githubから必要なものをPULLしてくる**  
+https://github.com/ayakamori0702/daizen  
+
+### **2.dockerfileをbuildする**  
+```$ docker build -t ja-maesyori:v0.0 .```  
+
+確かめるとき
+```& docker images```
+
+### **3.docker runする**  
+```$ source run.sh```  
+このとき、run.shの```リポジトリ名:タグ名 またはコミットID``` が合っているか確認する.
+***
+## M1チップの場合  
+### **1.image.tarをdocker loadする**  
+``` $ docker load -i image.tar```  
+
+確かめるとき
+```& docker images```
+### **2.docker runする**  
+```$ source run.sh```  
+このとき、run.shの```リポジトリ名:タグ名 またはコミットID``` が合っているか確認する.  
+***
