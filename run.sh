@@ -7,5 +7,5 @@ docker \
   --platform=linux/amd64 \
   -v $(pwd):/home/jovyan/work \
   --workdir=/home/jovyan/work \
-  maeshori:v1.2
+  maeshori:v1.2_jpfont
 
