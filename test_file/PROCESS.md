@@ -211,8 +211,8 @@ FROM jupyter/datascience-notebook:bada6c21e945
 
 
 RUN pip install --upgrade pip &&\
-    pip install pandas-profiling &&\ #pandas-report 
-    pip install japanize-matplotlib #日本語対応
+    pip install pandas-profiling &&\
+    pip install japanize-matplotlib
 
 WORKDIR home/jovyan/work
 
