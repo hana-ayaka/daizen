@@ -1,22 +1,7 @@
-# dockerの立ち上げ方  
+# eStatデータ加工の依頼に対する実行フォルダ
+RedmineチケットNo1397：<br>
+https://dadd.riken.jp/redmine/issues/1397
 
-(M1とM1以外では若干動作が異なる)
-
-
-### **1.Githubから必要なものをPULLしてくる**  
-https://github.com/ayakamori0702/daizen  
-必要なスクリプトやデータがあれば、追加して入れる
-### **2.dockerfileをbuildする**  
-```$ docker build -t maesyori:v0.0 .```  
-
-確かめるとき
-```& docker images```
-
-### **3.docker runする**  
-```$ source run.sh```  
-このとき、run.shの **リポジトリ名:タグ名 またはイメージID** が合っているか確認する.
-(M1の場合、最後の行はイメージIDでないとだめ)
-
-
-
-
+- Yachin.xlsx：依頼時に提供された元ファイル
+- Yachin_sikuchoson.csv：要求を元に整形（市区町村の家賃平均を抽出）したファイル（実行結果）
+- datacleaning_estat_kato.ipynb：実行レポート＆コード
