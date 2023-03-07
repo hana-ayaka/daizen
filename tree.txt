@@ -1,0 +1,31 @@
+.
+├── 100knock-process-visualization
+├── AI_lecture
+│   ├── lecture_1
+│   │   ├── Py_ex1.ipynb
+│   │   ├── Py_ex1_answer.ipynb
+│   │   ├── R_ex1.ipynb
+│   │   └── R_ex1_answer.ipynb
+│   ├── lecture_2
+│   │   └── Py_ex2_answer.ipynb
+│   ├── lecture_3
+│   │   └── R_ex3_answer.ipynb
+│   └── lecture_4
+│       └── R_ex4_answer.ipynb
+├── Dockerfile
+├── README.md
+├── estat
+│   ├── Yachin.csv
+│   ├── Yachin.ipynb
+│   └── Yachin.xlsx
+├── run.sh
+├── test_file
+│   ├── PROCESS.md
+│   ├── example.ipynb
+│   ├── font_test_20221208.ipynb
+│   ├── font_test_20221209-Copy1.ipynb
+│   ├── font_test_20221209.ipynb
+│   └── make_filelist.ipynb
+└── tree.txt
+
+8 directories, 20 files

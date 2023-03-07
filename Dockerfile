@@ -3,7 +3,9 @@ FROM jupyter/datascience-notebook:bada6c21e945
 
 RUN pip install --upgrade pip &&\
     pip install pandas-profiling &&\
-    pip install japanize-matplotlib
+    pip install japanize-matplotlib 
+
+RUN pip install lckr-jupyterlab-variableinspector
 
 WORKDIR home/jovyan/work
 
